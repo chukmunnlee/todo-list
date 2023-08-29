@@ -1,0 +1,39 @@
+<h2>Todo List</h2>
+
+<div>
+  <button type="button" [routerLink]="['/add']">Add</button>
+</div>
+
+<div *ngIf="todos$ | async as tds; else loading">
+  <div *ngIf="tds.length > 0; else noTodos">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Completed By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of tds; let i = index">
+          <td style="border: none;">{{ i }}</td>
+          <td>{{ t.id }}</td>
+          <td>{{ t.title | titlecase }} ({{ t.tasksCount }})</td>
+          <td>{{ t.completeBy | date }}</td>
+          <td style="border: none;">
+            <button type="button" (click)="deleteTodo(t.id)">x</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #loading>
+  <h2>Loading</h2>
+</ng-template>
+
+<ng-template #noTodos>
+  <h2>No Todos</h2>
+</ng-template>

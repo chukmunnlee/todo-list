@@ -1,0 +1,7 @@
+tbody>tr>td {
+  border: 1px solid black;
+}
+
+tr>td {
+  padding: 5px;
+}

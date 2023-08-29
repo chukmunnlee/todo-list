@@ -1,0 +1,60 @@
+<h2>Add Todo</h2>
+
+<form [formGroup]="todo" (submit)="process()">
+  <table>
+    <tr>
+      <td>Title:</td>
+      <td>
+        <input type="text" size="30" placeholder="Task name" formControlName="title">
+      </td>
+    </tr>
+    <tr>
+      <td>Complete By:</td>
+      <td>
+        <input type="date" size="30" formControlName="completeBy">
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <div class="even-spacing">
+          <button type="button" [routerLink]="['/']">Cancel</button>
+          <button type="submit" [disabled]="invalid()">Create</button>
+          <button type="button" (click)="addTask()">Add</button>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="top-3" *ngIf="tasks.controls.length > 0; else noTasks">
+    <table>
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody formArrayName="tasks">
+        <tr *ngFor="let t of tasks.controls; let i = index" [formGroupName]="i">
+          <td>
+            <input type="text" size="40" placeholder="Describe your task" formControlName="task">
+          </td>
+          <td>
+            <select formControlName="priority">
+              <option value="lo">Low</option>
+              <option value="me" selected>Medium</option>
+              <option value="hi">High</option>
+            </select>
+          </td>
+          <td>
+            <button type="button" (click)="removeTask(i)">X</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>
+
+<ng-template #noTasks>
+  <h3>You have no task</h3>
+</ng-template>
