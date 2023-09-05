@@ -4,16 +4,16 @@ import {ulid} from "ulid";
 import {Todo, TodoSummary} from "./models";
 
 @Injectable()
-export class TodoRepository extends Dexie {
+export class TodosRepository extends Dexie {
 
-  todo: Dexie.Table<Todo, string>
+  todos: Dexie.Table<Todo, string>
 
   constructor() {
-    super("todo")
+    super("todos")
     this.version(1).stores({
-      todo: 'id, completeBy'
+      todos: 'id, completeBy'
     })
-    this.todo = this.table('todo')
+    this.todos = this.table('todos')
   }
 
   insertTodo(td: Todo): Promise<Todo> {
@@ -25,12 +25,17 @@ export class TodoRepository extends Dexie {
       tasks: [ ...td.tasks ]
     }
 
-    return this.todo.add(_td)
+    return this.todos.add(_td)
         .then(() => _td)
   }
 
-  getTasks(): Promise<TodoSummary[]> {
-    return this.todo.orderBy('completeBy').reverse()
+  getTasks(): Promise<Todo[]> {
+    return this.todos.orderBy('completeBy')
+        .toArray()
+  }
+
+  getTaskSummaries(): Promise<TodoSummary[]> {
+    return this.todos.orderBy('completeBy').reverse()
         .toArray()
         .then(
           todos => todos.map(t =>
@@ -45,7 +50,7 @@ export class TodoRepository extends Dexie {
   }
 
   deleteTask(id: string): Promise<string> {
-    return this.todo.delete(id).then(() => id)
+    return this.todos.delete(id).then(() => id)
   }
 
 }

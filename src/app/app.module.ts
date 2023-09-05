@@ -6,7 +6,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main.component';
 import { AddTaskComponent } from './components/add-task.component';
-import {TodoRepository} from './store/todo.repository';
+import {TodosRepository} from './store/todos.repository';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent, title: 'Todo List' },
@@ -24,7 +24,7 @@ const appRoutes: Routes = [
     BrowserModule, ReactiveFormsModule,
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],
-  providers: [ TodoRepository ],
+  providers: [ TodosRepository ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

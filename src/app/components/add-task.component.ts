@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Task, Todo} from '../store/models';
-import {TodoRepository} from '../store/todo.repository';
+import {TodosRepository} from '../store/todos.repository';
 
 @Component({
   selector: 'app-add-task',
@@ -13,7 +13,7 @@ export class AddTaskComponent implements OnInit {
 
   private fb = inject(FormBuilder)
   private router = inject(Router)
-  private todoRepo = inject(TodoRepository)
+  private todosRepo = inject(TodosRepository)
 
   todo!: FormGroup
   tasks!: FormArray
@@ -30,7 +30,7 @@ export class AddTaskComponent implements OnInit {
       completeBy: (new Date(value['completeBy'])).getTime(),
       tasks: value['tasks'] as Task[]
     }
-    this.todoRepo.insertTodo(todo)
+    this.todosRepo.insertTodo(todo)
       .then(() => this.router.navigate(['/']))
       .catch(error => alert(`Insert error: ${JSON.stringify(error)}`))
   }

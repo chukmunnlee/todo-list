@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 
-import { TodoRepository } from '../store/todo.repository'
+import { TodosRepository } from '../store/todos.repository'
 import { TodoSummary } from '../store/models'
 
 @Component({
@@ -10,17 +10,17 @@ import { TodoSummary } from '../store/models'
 })
 export class MainComponent implements OnInit {
 
-  private todoRepo = inject(TodoRepository)
+  private todosRepo = inject(TodosRepository)
 
   todos$!: Promise<TodoSummary[]>
 
   ngOnInit(): void {
-    this.todos$ = this.todoRepo.getTasks()
+    this.todos$ = this.todosRepo.getTaskSummaries()
   }
 
   deleteTodo(id: string) {
-    this.todos$ = this.todoRepo.deleteTask(id)
-      .then(() => this.todoRepo.getTasks())
+    this.todos$ = this.todosRepo.deleteTask(id)
+      .then(() => this.todosRepo.getTaskSummaries())
   }
 
 }
